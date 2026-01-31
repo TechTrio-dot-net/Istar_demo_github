@@ -3,6 +3,10 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --accent: 124 58 237; /* violet-600 */
+  --accent-foreground: #ffffff;
+  --muted: 244 244 245; /* zinc-100 */
+  --muted-foreground: 113 113 122; /* zinc-500 */
 }
 
 @theme inline {
@@ -16,11 +20,75 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --muted: 39 39 42; /* zinc-800 */
+    --muted-foreground: 161 161 170; /* zinc-400 */
   }
+}
+
+/* Focus visible for keyboard users (skip default outline when mouse-only) */
+:focus-visible {
+  outline: 2px solid rgb(var(--accent));
+  outline-offset: 2px;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* Accessibility: screen-reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Tutorial code blocks */
+.tutorial-code {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  border: 1px solid #333;
+}
+
+.tutorial-code .comment {
+  color: #6a9955;
+}
+
+.tutorial-output {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  background: #0d1117;
+  color: #c9d1d9;
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  border-left: 4px solid #238636;
+}
+
+/* Tutorial section numbers */
+.tutorial-section-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  font-weight: 700;
+  font-size: 0.9rem;
 }
