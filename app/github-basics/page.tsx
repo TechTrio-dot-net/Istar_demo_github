@@ -1,12 +1,13 @@
 import Link from "next/link";
 import CodeBlock from "../components/CodeBlock";
+import CodeBlockTabs from "../components/CodeBlockTabs";
 import Question from "../components/Question";
 import Tip from "../components/Tip";
 
 export const metadata = {
   title: "GitHub Basics | Git & Vercel Tutorial",
   description:
-    "Git basics: status, branch, checkout, switch, add, commit, push, pull, merge with examples.",
+    "From scratch to advanced: what Git is, install, status, branch, add, commit, push, pull, merge, stash, rebase, and merge conflicts.",
 };
 
 function Section({
@@ -49,55 +50,86 @@ export default function GitHubBasicsPage() {
           GitHub Basics
         </h1>
         <p className="mt-2 text-zinc-600 dark:text-zinc-400">
-          All common Git commands with examples for every scenario. Run these in
-          your terminal from the project folder. Use the <strong>Best tips</strong> and <strong>Check your understanding</strong> sections to get the most out of this tutorial.
+          From scratch to advanced: what Git is, how to install it, daily commands, then stash, rebase, merge conflicts, and more. Tips and practice questions throughout.
         </p>
 
-        <nav className="mt-8 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+        <nav className="mt-6 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm sm:mt-8 dark:border-zinc-800 dark:bg-zinc-900 [&_a]:inline-flex [&_a]:min-h-[44px] [&_a]:items-center [&_a]:rounded-lg [&_a]:px-2 [&_a]:py-2 [&_a]:text-sm [&_a]:text-blue-600 [&_a]:hover:bg-blue-50 [&_a]:dark:text-blue-400 [&_a]:dark:hover:bg-blue-950/30 sm:[&_a]:min-h-0 sm:[&_a]:py-1" aria-label="Quick jump">
           <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
             Quick jump
           </p>
-          <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-blue-600 dark:text-blue-400">
-            <li><a href="#tips">Best tips</a></li>
+          <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm sm:gap-x-4">
+            <li><a href="#what-is-git">What is Git</a></li>
+            <li><a href="#install">Install</a></li>
             <li><a href="#status">git status</a></li>
             <li><a href="#branch">git branch</a></li>
-            <li><a href="#checkout">git checkout</a></li>
-            <li><a href="#switch">git switch</a></li>
             <li><a href="#add-commit">add & commit</a></li>
             <li><a href="#push-pull">push & pull</a></li>
             <li><a href="#merge">merge</a></li>
+            <li><a href="#advanced">Advanced</a></li>
             <li><a href="#scenarios">Scenarios</a></li>
-            <li><a href="#questions">Check your understanding</a></li>
+            <li><a href="#questions">Check understanding</a></li>
           </ul>
         </nav>
 
-        {/* BEST TIPS */}
-        <Section id="tips" title="Best tips">
-          <Tip title="Run status often">
-            <p>Get in the habit of running <code>git status</code> before and after you run other commands. It tells you exactly where you are and what will be committed.</p>
-          </Tip>
-          <Tip title="Prefer git switch for branches">
-            <p>Use <code>git switch</code> when you only want to change branches. Use <code>git checkout</code> when you need to restore files or create a branch in older setups. This keeps “switching branch” separate from “undo file changes.”</p>
-          </Tip>
-          <Tip title="Write clear commit messages">
-            <p>Use the imperative: “Add login form” not “Added login form.” Keep the first line under ~50 characters; add more detail in the body if needed.</p>
-          </Tip>
-          <Tip title="Pull before you push">
-            <p>If others use the same branch, run <code>git pull</code> (or <code>git pull --rebase</code>) before <code>git push</code> to avoid unnecessary merge commits and conflicts.</p>
-          </Tip>
-          <Tip title="Use branches for new work">
-            <p>Create a branch for each feature or fix (<code>git switch -c feature-name</code>). Merge into <code>main</code> when it’s ready. That keeps main stable and makes it easy to switch context.</p>
-          </Tip>
-          <Tip title="Don’t commit secrets" variant="warning">
-            <p>Never commit API keys, passwords, or <code>.env</code> files. Add them to <code>.gitignore</code> and use environment variables in your app.</p>
+        {/* WHAT IS GIT - SCRATCH */}
+        <Section id="what-is-git" title="0. What is Git? What is GitHub? (Scratch)">
+          <p>
+            <strong>Git</strong> is a version control system—it tracks changes to your files over time so you can undo mistakes, compare versions, and collaborate with others. It keeps every change you commit so you can always go back.
+          </p>
+          <p>
+            <strong>GitHub</strong> is a hosted service for Git repositories. It stores your code in the cloud, lets others clone and contribute, and integrates with tools like Vercel for deployment. Git is the tool; GitHub is the place to put it.
+          </p>
+          <H3>Why use Git?</H3>
+          <ul className="list-inside list-disc space-y-1 text-sm">
+            <li>See who changed what and when</li>
+            <li>Revert to any earlier version</li>
+            <li>Work on features in branches without breaking main</li>
+            <li>Collaborate via push, pull, and pull requests</li>
+            <li>Deploy from GitHub to Vercel, Netlify, etc.</li>
+          </ul>
+        </Section>
+
+        {/* INSTALL - SCRATCH */}
+        <Section id="install" title="1. Install Git (First-time setup)">
+          <p>
+            If you haven&apos;t installed Git yet, install it for your operating system. Select your platform below, then run the command. After install, configure your name and email (used for commit authorship).
+          </p>
+          <CodeBlockTabs
+            title="Install Git"
+            mac="brew install git"
+            windows="winget install Git.Git"
+            linux="sudo apt update && sudo apt install -y git"
+          />
+          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+            Windows: Or download from <a href="https://git-scm.com/download/win" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 underline">git-scm.com</a>. Linux Fedora: <code>sudo dnf install git</code>.
+          </p>
+          <H3>Configure your identity (once per machine)</H3>
+          <CodeBlockTabs
+            title="Commands"
+            mac={`git config --global user.name "Your Name"
+git config --global user.email "you@example.com"`}
+            windows={`git config --global user.name "Your Name"
+git config --global user.email "you@example.com"`}
+            linux={`git config --global user.name "Your Name"
+git config --global user.email "you@example.com"`}
+          />
+          <H3>Check that Git is installed</H3>
+          <CodeBlockTabs
+            title="Command"
+            mac="git --version"
+            windows="git --version"
+            linux="git --version"
+          />
+          <Tip title="GitHub account">
+            <p>Create a free account at <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 underline">github.com</a> so you can push your repos and deploy to Vercel.</p>
           </Tip>
         </Section>
 
         {/* STATUS */}
-        <Section id="status" title="1. git status">
+        <Section id="status" title="2. git status">
           <p>
             Shows the state of your working directory and staging area: which
-            branch you’re on, and which files are modified, untracked, or
+            branch you&apos;re on, and which files are modified, untracked, or
             staged.
           </p>
           <H3>Check status (any time)</H3>
@@ -145,10 +177,13 @@ Changes to be committed:
 M  app/layout.tsx   (staged)
 ?? new-file.txt     (untracked)`}
           </CodeBlock>
+          <Tip title="Run status often">
+            <p>Get in the habit of running <code>git status</code> before and after you run other commands. It tells you exactly where you are and what will be committed.</p>
+          </Tip>
         </Section>
 
         {/* BRANCH */}
-        <Section id="branch" title="2. git branch">
+        <Section id="branch" title="3. git branch">
           <p>
             List, create, rename, or delete branches. Does not switch you to
             another branch (use <code>git checkout</code> or{" "}
@@ -188,14 +223,17 @@ git switch -c feature-name</CodeBlock>
           <CodeBlock title="Force delete">git branch -D feature-abandoned</CodeBlock>
           <H3>Delete a remote branch</H3>
           <CodeBlock title="Command">git push origin --delete branch-name</CodeBlock>
+          <Tip title="Use branches for new work">
+            <p>Create a branch for each feature or fix (<code>git switch -c feature-name</code>). Merge into <code>main</code> when it&apos;s ready. That keeps main stable and makes it easy to switch context.</p>
+          </Tip>
         </Section>
 
         {/* CHECKOUT */}
-        <Section id="checkout" title="3. git checkout">
+        <Section id="checkout" title="4. git checkout">
           <p>
             Switch branches, create a new branch and switch to it, or restore
-            files from a branch/commit. Does several things; for “switch
-            branch” only, prefer <code>git switch</code>.
+            files from a branch/commit. Does several things; for &quot;switch
+            branch&quot; only, prefer <code>git switch</code>.
           </p>
           <H3>Switch to an existing branch</H3>
           <CodeBlock title="Command">git checkout main
@@ -224,7 +262,7 @@ git checkout feature-login</CodeBlock>
         </Section>
 
         {/* SWITCH */}
-        <Section id="switch" title="4. git switch">
+        <Section id="switch" title="5. git switch">
           <p>
             Newer command focused only on switching branches. Use this instead
             of <code>git checkout</code> when you only want to change branch.
@@ -240,12 +278,15 @@ git switch feature-login</CodeBlock>
           <H3>Switch back to previous branch</H3>
           <CodeBlock title="Command">git switch -</CodeBlock>
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            The <code>-</code> means “the branch I was on before.”
+            The <code>-</code> means &quot;the branch I was on before.&quot;
           </p>
+          <Tip title="Prefer git switch for branches">
+            <p>Use <code>git switch</code> when you only want to change branches. Use <code>git checkout</code> when you need to restore files or create a branch in older setups. This keeps switching branch separate from undoing file changes.</p>
+          </Tip>
         </Section>
 
         {/* ADD & COMMIT */}
-        <Section id="add-commit" title="5. git add & git commit">
+        <Section id="add-commit" title="6. git add & git commit">
           <p>
             Stage changes with <code>git add</code>, then save a snapshot with{" "}
             <code>git commit</code>.
@@ -268,10 +309,16 @@ git switch feature-login</CodeBlock>
             <code>-a</code> stages all modified tracked files. New untracked
             files are not included; use <code>git add</code> for those.
           </p>
+          <Tip title="Write clear commit messages">
+            <p>Use the imperative: “Add login form” not “Added login form.” Keep the first line under ~50 characters; add more detail in the body if needed.</p>
+          </Tip>
+          <Tip title="Don&apos;t commit secrets" variant="warning">
+            <p>Never commit API keys, passwords, or <code>.env</code> files. Add them to <code>.gitignore</code> and use environment variables in your app.</p>
+          </Tip>
         </Section>
 
         {/* PUSH & PULL */}
-        <Section id="push-pull" title="6. git push & git pull">
+        <Section id="push-pull" title="7. git push & git pull">
           <p>
             <code>git push</code> sends your commits to a remote (e.g. GitHub).{" "}
             <code>git pull</code> fetches and merges changes from the remote
@@ -296,10 +343,13 @@ git switch feature-login</CodeBlock>
           </p>
           <H3>Pull from a specific remote and branch</H3>
           <CodeBlock title="Command">git pull origin main</CodeBlock>
+          <Tip title="Pull before you push">
+            <p>If others use the same branch, run <code>git pull</code> (or <code>git pull --rebase</code>) before <code>git push</code> to avoid unnecessary merge commits and conflicts.</p>
+          </Tip>
         </Section>
 
         {/* MERGE */}
-        <Section id="merge" title="7. git merge">
+        <Section id="merge" title="8. git merge">
           <p>
             Merges another branch into your current branch. You must be on the
             branch that should receive the changes (e.g. <code>main</code>).
@@ -313,19 +363,98 @@ git merge feature-login</CodeBlock>
           <CodeBlock title="Command">git merge --abort</CodeBlock>
         </Section>
 
+        {/* ADVANCED */}
+        <Section id="advanced" title="9. Advanced: stash, rebase, conflicts">
+          <p>
+            Once you&apos;re comfortable with the basics, these tools help you work faster and keep history clean.
+          </p>
+          <H3>git stash — save work in progress</H3>
+          <p>
+            Need to switch branches but you have uncommitted changes? Stash them, do something else, then restore.
+          </p>
+          <CodeBlock title="Stash changes (working dir + staged)">git stash</CodeBlock>
+          <CodeBlock title="Stash with a message">git stash push -m "WIP: login form"</CodeBlock>
+          <CodeBlock title="List stashes">git stash list</CodeBlock>
+          <CodeBlock title="Restore most recent stash (and remove from list)">git stash pop</CodeBlock>
+          <CodeBlock title="Restore without removing from list">git stash apply</CodeBlock>
+          <Tip title="Stash is your friend">
+            <p>Use <code>git stash</code> when you need to quickly switch context. <code>git stash pop</code> puts your changes back and removes the stash. If something goes wrong, <code>git stash apply</code> keeps the stash so you can try again.</p>
+          </Tip>
+          <H3>git rebase — linear history</H3>
+          <p>
+            Rebase rewrites your branch commits on top of another branch. Use it to keep a clean, linear history before merging.
+          </p>
+          <CodeBlock title="Rebase current branch onto main">{`git switch feature-x
+git rebase main`}</CodeBlock>
+          <CodeBlock title="Abort rebase if it goes wrong">git rebase --abort</CodeBlock>
+          <CodeBlock title="Continue after resolving conflicts">git add .
+git rebase --continue</CodeBlock>
+          <Tip title="Don't rebase shared branches" variant="warning">
+            <p>Only rebase branches that you haven&apos;t pushed yet, or that no one else is using. Rebasing shared branches rewrites history and can cause problems for collaborators.</p>
+          </Tip>
+          <H3>Resolving merge conflicts</H3>
+          <p>
+            When Git can&apos;t auto-merge, it marks conflicts in your files. You edit, stage, and complete the merge.
+          </p>
+          <CodeBlock title="After a failed merge, see conflicted files">git status</CodeBlock>
+          <CodeBlock title="Conflict markers in a file" output>
+{`<<<<<<< HEAD
+your version
+=======
+their version
+>>>>>>> feature-branch`}
+          </CodeBlock>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+            Edit the file: remove the markers and keep the correct content (or combine both). Then:
+          </p>
+          <CodeBlock title="Mark as resolved and complete merge">git add path/to/file
+git commit -m "Resolve merge conflict"</CodeBlock>
+          <H3>git diff — see changes</H3>
+          <CodeBlock title="Unstaged changes">git diff</CodeBlock>
+          <CodeBlock title="Staged changes">git diff --staged</CodeBlock>
+          <CodeBlock title="Compare two branches">git diff main..feature-x</CodeBlock>
+          <H3>git log — browse history</H3>
+          <CodeBlock title="Compact one-line per commit">git log --oneline -10</CodeBlock>
+          <CodeBlock title="Graph of branches">git log --oneline --graph -10</CodeBlock>
+          <H3>.gitignore — exclude files</H3>
+          <p>
+            Add filenames or patterns so Git never tracks them (e.g. <code>node_modules/</code>, <code>.env</code>).
+          </p>
+          <CodeBlock title=".gitignore example">{`node_modules/
+.env
+.env.local
+*.log
+.DS_Store`}</CodeBlock>
+        </Section>
+
         {/* SCENARIOS */}
-        <Section id="scenarios" title="8. Common scenarios">
+        <Section id="scenarios" title="10. Common scenarios">
           <p>
             End-to-end examples: from first commit to branch workflow and
             merge.
           </p>
           <H3>Scenario A: First-time setup (init, add remote, first push)</H3>
-          <CodeBlock title="Commands">{`git init
+          <CodeBlockTabs
+            title="Commands"
+            mac={`git init
 git add .
 git commit -m "Initial commit"
 git branch -M main
 git remote add origin https://github.com/USERNAME/REPO.git
-git push -u origin main`}</CodeBlock>
+git push -u origin main`}
+            windows={`git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/USERNAME/REPO.git
+git push -u origin main`}
+            linux={`git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/USERNAME/REPO.git
+git push -u origin main`}
+          />
           <H3>Scenario B: Daily work (edit, stage, commit, push)</H3>
           <CodeBlock title="Commands">{`git status
 git add .
@@ -380,6 +509,12 @@ git log --oneline -5</CodeBlock>
             </Question>
             <Question number={6} question="You want to merge feature-x into main. Which branch do you need to be on when you run git merge?">
               <p>You must be on <code>main</code>. Merge brings another branch <em>into</em> your current branch. So: <code>git switch main</code>, then <code>git merge feature-x</code>.</p>
+            </Question>
+            <Question number={7} question="You have uncommitted changes and need to switch branches. What do you do?">
+              <p>Use <code>git stash</code> to save your changes, switch branches, do your work, then <code>git stash pop</code> to restore them. Or commit the changes if they belong on the current branch.</p>
+            </Question>
+            <Question number={8} question="What's the difference between git merge and git rebase?">
+              <p><code>git merge</code> creates a merge commit and preserves the full branch history. <code>git rebase</code> replays your commits on top of another branch for a linear history. Use merge for shared branches; rebase for your own feature branches before merging.</p>
             </Question>
           </div>
         </section>

@@ -1,12 +1,13 @@
 import Link from "next/link";
 import CodeBlock from "../components/CodeBlock";
+import CodeBlockTabs from "../components/CodeBlockTabs";
 import Question from "../components/Question";
 import Tip from "../components/Tip";
 
 export const metadata = {
   title: "Push & Deploy to Vercel | Git & Vercel Tutorial",
   description:
-    "Step-by-step: push your Next.js project to GitHub and deploy on Vercel.",
+    "From scratch to advanced: prerequisites, push to GitHub, deploy on Vercel, custom domains, rollbacks, preview deployments.",
 };
 
 function Section({
@@ -52,38 +53,60 @@ export default function PushDeployPage() {
           Push to GitHub & Deploy on Vercel
         </h1>
         <p className="mt-2 text-zinc-600 dark:text-zinc-400">
-          Follow these steps to put your code on GitHub and deploy this Next.js
-          app on Vercel. Includes <strong>Best tips</strong> and <strong>Check your understanding</strong> questions.
+          From scratch to advanced: prerequisites, push to GitHub, deploy on Vercel, then custom domains, rollbacks, and preview deployments.
         </p>
 
-        <nav className="mt-8 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+        <nav className="mt-8 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 [&_a]:inline-flex [&_a]:min-h-[44px] [&_a]:items-center [&_a]:rounded-lg [&_a]:px-2 [&_a]:py-2 [&_a]:text-sm [&_a]:text-blue-600 [&_a]:hover:bg-blue-50 [&_a]:dark:text-blue-400 [&_a]:dark:hover:bg-blue-950/30 sm:[&_a]:min-h-0 sm:[&_a]:py-1" aria-label="Quick jump">
           <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
             Quick jump
           </p>
-          <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-blue-600 dark:text-blue-400">
-            <li><a href="#tips">Best tips</a></li>
-            <li><a href="#part1-github">Part 1: Push to GitHub</a></li>
-            <li><a href="#part2-vercel">Part 2: Deploy on Vercel</a></li>
-            <li><a href="#questions">Check your understanding</a></li>
+          <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm sm:gap-x-4">
+            <li><a href="#prerequisites">Prerequisites</a></li>
+            <li><a href="#part1-github">Push to GitHub</a></li>
+            <li><a href="#part2-vercel">Deploy on Vercel</a></li>
+            <li><a href="#advanced">Advanced</a></li>
+            <li><a href="#questions">Check understanding</a></li>
           </ul>
         </nav>
 
-        {/* BEST TIPS */}
-        <Section id="tips" title="Best tips">
-          <Tip title="Create the repo empty">
-            <p>When creating the GitHub repo, do <strong>not</strong> add a README, .gitignore, or license. This project already has them; adding them on GitHub can cause “unrelated histories” when you push.</p>
-          </Tip>
-          <Tip title="Use HTTPS if you're new">
-            <p>HTTPS (<code>https://github.com/.../repo.git</code>) is easier to set up than SSH. You can switch to SSH later for passwordless push if you want.</p>
-          </Tip>
-          <Tip title="Connect GitHub to Vercel once">
-            <p>After you connect your GitHub account to Vercel and import a repo, every push to the default branch will trigger a new deployment. No need to deploy manually each time.</p>
-          </Tip>
-          <Tip title="Preview URLs for other branches">
-            <p>If you push a branch other than <code>main</code>, Vercel can create a preview URL for that branch. Useful for testing before merging.</p>
-          </Tip>
-          <Tip title="Environment variables on Vercel" variant="success">
-            <p>For API keys or secrets, add them in Vercel: Project → Settings → Environment Variables. Never commit them to the repo.</p>
+        {/* PREREQUISITES - SCRATCH */}
+        <Section id="prerequisites" title="Prerequisites (Start from scratch)">
+          <p>
+            Before pushing and deploying, make sure you have these set up.
+          </p>
+          <H3>1. Git installed</H3>
+          <p>
+            Run <code>git --version</code>. If it fails, install Git—see the <Link href="/github-basics#install" className="text-blue-600 dark:text-blue-400 underline">GitHub Basics tutorial</Link>.
+          </p>
+          <H3>2. GitHub account</H3>
+          <p>
+            Create a free account at <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 underline">github.com</a>. You&apos;ll need it to create a repo and push code.
+          </p>
+          <H3>3. This project in a Git repo</H3>
+          <p>
+            If you cloned this repo, you already have Git. If you downloaded a ZIP, initialize first (select your OS):
+          </p>
+          <CodeBlockTabs
+            title="Initialize repo (if needed)"
+            mac={`git init
+git add .
+git commit -m "Initial commit"
+git branch -M main`}
+            windows={`git init
+git add .
+git commit -m "Initial commit"
+git branch -M main`}
+            linux={`git init
+git add .
+git commit -m "Initial commit"
+git branch -M main`}
+          />
+          <H3>4. Vercel account</H3>
+          <p>
+            Sign up at <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 underline">vercel.com</a>—use &quot;Continue with GitHub&quot; for the easiest setup.
+          </p>
+          <Tip title="All free">
+            <p>GitHub and Vercel both have free tiers. You can deploy personal projects without paying.</p>
           </Tip>
         </Section>
 
@@ -107,6 +130,12 @@ export default function PushDeployPage() {
             </li>
             <li>Click <strong>Create repository</strong>.</li>
           </ol>
+          <Tip title="Create the repo empty">
+            <p>When creating the GitHub repo, do <strong>not</strong> add a README, .gitignore, or license. This project already has them; adding them on GitHub can cause unrelated histories when you push.</p>
+          </Tip>
+          <Tip title="Use HTTPS if you&apos;re new">
+            <p>HTTPS (<code>https://github.com/.../repo.git</code>) is easier to set up than SSH. You can switch to SSH later for passwordless push if you want.</p>
+          </Tip>
 
           <H3>Step 2: Add GitHub as remote and push</H3>
           <p>
@@ -114,19 +143,30 @@ export default function PushDeployPage() {
             Replace <code>YOUR_USERNAME</code> and <code>YOUR_REPO</code> with
             your GitHub username and repository name.
           </p>
-          <CodeBlock title="Add the GitHub repo as remote (HTTPS)">
-{`git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git`}
-          </CodeBlock>
+          <CodeBlockTabs
+            title="Add the GitHub repo as remote (HTTPS)"
+            mac="git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git"
+            windows="git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git"
+            linux="git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git"
+          />
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
             If you use SSH:
           </p>
-          <CodeBlock title="Add remote (SSH)">
-{`git remote add origin git@github.com:YOUR_USERNAME/YOUR_REPO.git`}
-          </CodeBlock>
-          <CodeBlock title="Make sure default branch is main and push">
-{`git branch -M main
+          <CodeBlockTabs
+            title="Add remote (SSH)"
+            mac="git remote add origin git@github.com:YOUR_USERNAME/YOUR_REPO.git"
+            windows="git remote add origin git@github.com:YOUR_USERNAME/YOUR_REPO.git"
+            linux="git remote add origin git@github.com:YOUR_USERNAME/YOUR_REPO.git"
+          />
+          <CodeBlockTabs
+            title="Make sure default branch is main and push"
+            mac={`git branch -M main
 git push -u origin main`}
-          </CodeBlock>
+            windows={`git branch -M main
+git push -u origin main`}
+            linux={`git branch -M main
+git push -u origin main`}
+          />
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
             <code>-u origin main</code> sets <code>main</code> to track{" "}
             <code>origin/main</code>. After this, you can use{" "}
@@ -134,11 +174,18 @@ git push -u origin main`}
           </p>
 
           <H3>Example (copy and edit)</H3>
-          <CodeBlock title="Example: user johndoe, repo nextjs-vercel-demo">
-{`git remote add origin https://github.com/johndoe/nextjs-vercel-demo.git
+          <CodeBlockTabs
+            title="Example: user johndoe, repo nextjs-vercel-demo"
+            mac={`git remote add origin https://github.com/johndoe/nextjs-vercel-demo.git
 git branch -M main
 git push -u origin main`}
-          </CodeBlock>
+            windows={`git remote add origin https://github.com/johndoe/nextjs-vercel-demo.git
+git branch -M main
+git push -u origin main`}
+            linux={`git remote add origin https://github.com/johndoe/nextjs-vercel-demo.git
+git branch -M main
+git push -u origin main`}
+          />
 
           <H3>If you get “remote origin already exists”</H3>
           <p>Remove the old remote, then add the correct one:</p>
@@ -191,14 +238,22 @@ git push`}
           </p>
 
           <H3>Option B: Deploy with Vercel CLI</H3>
-          <p>Install the CLI and deploy from your project folder:</p>
-          <CodeBlock title="Install Vercel CLI (once)">
-{`npm i -g vercel`}
-          </CodeBlock>
-          <CodeBlock title="From project folder: deploy">
-{`cd nextjs-vercel-demo
+          <p>Install the CLI and deploy from your project folder (select your OS):</p>
+          <CodeBlockTabs
+            title="Install Vercel CLI (once)"
+            mac="npm i -g vercel"
+            windows="npm i -g vercel"
+            linux="npm i -g vercel"
+          />
+          <CodeBlockTabs
+            title="From project folder: deploy"
+            mac={`cd nextjs-vercel-demo
 vercel`}
-          </CodeBlock>
+            windows={`cd nextjs-vercel-demo
+vercel`}
+            linux={`cd nextjs-vercel-demo
+vercel`}
+          />
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
             Follow the prompts: log in if needed, link to an existing project or
             create a new one. First run is usually a preview deployment.
@@ -206,6 +261,55 @@ vercel`}
           <CodeBlock title="Deploy to production">
 {`vercel --prod`}
           </CodeBlock>
+          <Tip title="Connect GitHub to Vercel once">
+            <p>After you connect your GitHub account to Vercel and import a repo, every push to the default branch will trigger a new deployment. No need to deploy manually each time.</p>
+          </Tip>
+          <Tip title="Preview URLs for other branches">
+            <p>If you push a branch other than <code>main</code>, Vercel can create a preview URL for that branch. Useful for testing before merging.</p>
+          </Tip>
+          <Tip title="Environment variables on Vercel" variant="success">
+            <p>For API keys or secrets, add them in Vercel: Project → Settings → Environment Variables. Never commit them to the repo.</p>
+          </Tip>
+        </Section>
+
+        {/* ADVANCED */}
+        <Section id="advanced" title="Advanced: domains, env vars, rollbacks, previews">
+          <p>
+            Once you&apos;re deployed, these steps help you customize and manage your app.
+          </p>
+          <H3>Custom domain</H3>
+          <ol className="list-inside list-decimal space-y-2 text-sm">
+            <li>In Vercel: Project → Settings → Domains.</li>
+            <li>Add your domain (e.g. <code>myapp.com</code> or <code>www.myapp.com</code>).</li>
+            <li>Add the DNS records Vercel shows (A or CNAME) at your registrar.</li>
+            <li>Vercel will provision SSL automatically.</li>
+          </ol>
+          <H3>Environment variables in detail</H3>
+          <p>
+            Variables can be scoped to Production, Preview, or Development. Use Production for live secrets; Preview for branch deployments. Redeploy after adding or changing env vars.
+          </p>
+          <CodeBlock title="Vercel CLI: add env var (example)">
+{`vercel env add RESEND_API_KEY production`}
+          </CodeBlock>
+          <H3>Preview deployments</H3>
+          <p>
+            Every push to a non-production branch (e.g. <code>feature-x</code>) gets a unique preview URL. Test changes before merging to <code>main</code>. Enable in Project → Settings → Git.
+          </p>
+          <H3>Rollback a deployment</H3>
+          <p>
+            If a deployment is broken, roll back to a previous one:
+          </p>
+          <ol className="list-inside list-decimal space-y-2 text-sm">
+            <li>Project → Deployments.</li>
+            <li>Find the last working deployment.</li>
+            <li>Click the ⋮ menu → Promote to Production.</li>
+          </ol>
+          <H3>Vercel CLI: production deploy</H3>
+          <CodeBlock title="Deploy to production from CLI">vercel --prod</CodeBlock>
+          <H3>Ignore build step</H3>
+          <p>
+            Add <code>VERCEL_IGNORE_BUILD_STEP=1</code> as an env var (or set in <code>vercel.json</code>) to skip the build—useful for docs-only or static sites.
+          </p>
         </Section>
 
         {/* CHECK YOUR UNDERSTANDING */}
@@ -228,6 +332,12 @@ vercel`}
             </Question>
             <Question number={4} question="Where should you put API keys or secrets for your Vercel deployment?">
               <p>In Vercel’s dashboard: Project → Settings → Environment Variables. Add the key and value there. They are injected at build/runtime and are not stored in your Git repo.</p>
+            </Question>
+            <Question number={5} question="How do you roll back a bad Vercel deployment?">
+              <p>Go to Project → Deployments, find a previous working deployment, open the ⋮ menu, and choose &quot;Promote to Production&quot;. This makes that deployment live without changing your Git history.</p>
+            </Question>
+            <Question number={6} question="What are preview deployments?">
+              <p>Preview deployments are unique URLs created for each push to non-production branches (e.g. <code>feature-x</code>). You can test changes before merging to <code>main</code> without affecting the live site.</p>
             </Question>
           </div>
         </section>

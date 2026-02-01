@@ -36,14 +36,14 @@ export default function CodeBlock({
           {title}
         </p>
       )}
-      <div className="relative">
-        <pre className={`${className} pr-24`}>
+      <div className="relative min-w-0">
+        <pre className={`${className} pr-20 sm:pr-24 overflow-x-auto`}>
           <code ref={codeRef}>{children}</code>
         </pre>
         <button
           type="button"
           onClick={handleCopy}
-          className="absolute right-2 top-2 flex items-center gap-1.5 rounded border border-zinc-500/50 bg-zinc-800/90 px-2.5 py-1.5 text-xs font-medium text-zinc-200 transition hover:bg-zinc-700/90 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 focus:ring-offset-[#1e1e1e] dark:focus:ring-offset-[#0d1117]"
+          className="absolute right-2 top-2 flex min-h-[44px] min-w-[44px] items-center justify-center gap-1.5 rounded border border-zinc-500/50 bg-zinc-800/90 px-2.5 py-2 text-xs font-medium text-zinc-200 transition hover:bg-zinc-700/90 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 focus:ring-offset-[#1e1e1e] dark:focus:ring-offset-[#0d1117] sm:min-h-0 sm:min-w-0 sm:py-1.5"
           aria-label={copied ? "Copied" : "Copy code"}
         >
           {copied ? (

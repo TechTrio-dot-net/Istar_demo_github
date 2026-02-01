@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/lib/site";
 
-const PAGES = ["", "/github-basics", "/push-deploy"] as const;
+const PAGES = ["", "/github-basics", "/push-deploy", "/coding-standards", "/docker", "/contact"] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = site.baseUrl || "https://example.com";
